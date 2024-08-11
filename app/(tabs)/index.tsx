@@ -1,70 +1,96 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, TextInput, View, Text, Switch } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
+import React, { useEffect, useState } from 'react'
+import { Picker } from '@react-native-picker/picker'
 
 export default function HomeScreen() {
+  const [selectedCurrency, setSelectedCurrency] = useState('USD')
+  const [inputValue, setInputValue] = useState('')
+  const [listPicker] = useState([
+    { label: 'USD', value: 'USD' },
+    { label: 'BRL', value: 'BRL' },
+    { label: 'EUR', value: 'EUR' },
+  ])
+  const [isEnabled, setIsEnabled] = useState(false)
+
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <LinearGradient colors={['#4CC9F0', '#B2F7EF']} style={styles.background}>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          onChangeText={(value) => setInputValue(value)}
+          value={inputValue}
+          placeholder="Digite o valor"
+          keyboardType="numeric"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+        <Picker
+          selectedValue={selectedCurrency}
+          style={styles.picker}
+          onValueChange={(itemValue) => setSelectedCurrency(itemValue)}
+        >
+          {listPicker.map((coin, index) => (
+            <Picker.Item key={index} label={coin.label} value={coin.value} />
+          ))}
+        </Picker>
+      </View>
+
+      <View style={styles.container1}>
+        <Text style={styles.text}>Múltiplas Conversões</Text>
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
+      </View>
+    </LinearGradient>
+  )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+    width: '80%',
+    paddingHorizontal: 20,
+    paddingTop: 20,
     position: 'absolute',
+    top: 0,
+    left: '10%',
   },
-});
+  container1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,   
+  },
+  picker: {
+    height: 50,
+    width: 100,
+    backgroundColor: '#B2F7EF',
+    borderRadius: 5,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingLeft: 8,
+    borderRadius: 5,
+    backgroundColor: '#B2F7EF',
+  },
+  text: {
+    fontSize: 18,
+    marginRight: 5
+  },
+})
