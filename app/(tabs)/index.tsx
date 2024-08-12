@@ -1,7 +1,8 @@
-import { StyleSheet, TextInput, View, Text, Switch } from 'react-native'
+import { StyleSheet, View, Text, Switch } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Picker } from '@react-native-picker/picker'
+import { Button, TextInput } from 'react-native-paper'
 
 export default function HomeScreen() {
   const [selectedCurrency, setSelectedCurrency] = useState('USD')
@@ -35,7 +36,11 @@ export default function HomeScreen() {
           ))}
         </Picker>
       </View>
-
+      <View style={styles.buttonConver}>
+        <Button icon="autorenew" mode="contained" buttonColor='gray' onPress={() => console.log('Pressed')}>
+          Converter
+        </Button>
+      </View>
       <View style={styles.container1}>
         <Text style={styles.text}>Múltiplas Conversões</Text>
         <Switch
@@ -56,41 +61,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  container1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '80%',
-    paddingHorizontal: 20,
+    width: '100%',
+    paddingHorizontal: 15,
     paddingTop: 20,
     position: 'absolute',
     top: 0,
     left: '10%',
   },
-  container1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '80%',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 20,   
-  },
-  picker: {
-    height: 50,
-    width: 100,
-    backgroundColor: '#B2F7EF',
-    borderRadius: 5,
-  },
   input: {
-    flex: 1,
+    flex: 0.55,
     height: 50,
     borderColor: 'gray',
     borderWidth: 1,
     paddingLeft: 8,
     borderRadius: 5,
     backgroundColor: '#B2F7EF',
+    marginRight: 10,
+  },
+  picker: {
+    flex: 0.35,
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: '#B2F7EF',
+    borderRadius: 5
   },
   text: {
     fontSize: 18,
-    marginRight: 5
+    marginRight: 5,
+    borderRadius: 5,
   },
+  buttonConver: {
+    justifyContent: 'flex-start',
+    display: 'flex',
+    flexDirection: 'column'
+  }
 })

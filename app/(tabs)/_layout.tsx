@@ -1,6 +1,5 @@
 import { Tabs } from 'expo-router'
 import React from 'react'
-
 import { TabBarIcon } from '@/components/navigation/TabBarIcon'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useColorScheme'
@@ -18,7 +17,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'conversor',
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color, focused }) => ( 
             <TabBarIcon name={focused ? 'repeat' : 'repeat-outline'} color={color} />
           ),
         }}

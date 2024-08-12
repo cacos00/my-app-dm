@@ -26,6 +26,8 @@ function ListQuotes(props: ListCotsProps) {
 const styles = StyleSheet.create({
     container: {
         marginTop: 5,
+        marginStart: 3,
+        marginEnd: 3
     }
 })
 
