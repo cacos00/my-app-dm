@@ -19,24 +19,24 @@ export default function HomeScreen() {
   return (
     <LinearGradient colors={['#4CC9F0', '#B2F7EF']} style={styles.background}>
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(value) => setInputValue(value)}
-          value={inputValue}
-          placeholder="Digite o valor"
-          keyboardType="numeric"
-        />
-        <Picker
-          selectedValue={selectedCurrency}
-          style={styles.picker}
-          onValueChange={(itemValue) => setSelectedCurrency(itemValue)}
-        >
-          {listPicker.map((coin, index) => (
-            <Picker.Item key={index} label={coin.label} value={coin.value} />
-          ))}
-        </Picker>
-      </View>
-      <View style={styles.buttonConver}>
+        <View style={styles.row}>
+          <TextInput
+            style={styles.input}
+            onChangeText={(value) => setInputValue(value)}
+            value={inputValue}
+            placeholder="Digite o valor"
+            keyboardType="numeric"
+          />
+          <Picker
+            selectedValue={selectedCurrency}
+            style={styles.picker}
+            onValueChange={(itemValue) => setSelectedCurrency(itemValue)}
+          >
+            {listPicker.map((coin, index) => (
+              <Picker.Item key={index} label={coin.label} value={coin.value} />
+            ))}
+          </Picker>
+        </View>
         <Button icon="autorenew" mode="contained" buttonColor='gray' onPress={() => console.log('Pressed')}>
           Converter
         </Button>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   container: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 15,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   picker: {
-    flex: 0.35,
+    flex: 0.25,
     height: 50,
     borderColor: 'gray',
     borderWidth: 1,
@@ -105,6 +105,10 @@ const styles = StyleSheet.create({
   buttonConver: {
     justifyContent: 'flex-start',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginTop: 10
+  },
+  row: {
+    flexDirection: 'row',
   }
 })
