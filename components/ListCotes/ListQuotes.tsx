@@ -7,6 +7,7 @@ interface ListCotsProps {
 }
 
 function ListQuotes(props: ListCotsProps) {
+    console.log('teste')
     return (
         <>
             {props.quotes && props.quotes.map((quote: CoinType, index: number) => (
@@ -19,6 +20,7 @@ function ListQuotes(props: ListCotsProps) {
                     </Card>
                 </View>
             ))}
+            
         </>
     )
 }

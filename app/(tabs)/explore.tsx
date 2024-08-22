@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import { useEffect, useState } from 'react'
-import { Appbar } from 'react-native-paper'
+import { Appbar, Button } from 'react-native-paper'
 import { ListQuotes } from '@/components/ListCotes/ListQuotes'
 import { CoinType } from '@/components/ListCotes/ListCotes'
 
@@ -18,13 +18,18 @@ export default function TabTwoScreen() {
   async function fetchQuotes() {
     const data = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL')
     const response = await data.json()
+    console.log('data: ', response)
     if (response) {
-      const arrayOfObjects: CoinType[]  = Object.values(response)
+      const arrayOfObjects: CoinType[] = Object.values(response)
       setQuotes(arrayOfObjects)
     }
     else {
       throw new Error('porblemas')
     }
+  }
+
+  async function handleOnClickRefreshQuotes(): Promise<void> {
+    await fetchQuotes()
   }
 
   return (
@@ -37,6 +42,9 @@ export default function TabTwoScreen() {
       <View style={styles.container}>
         <ListQuotes quotes={quotes} />
       </View>
+      <Button style={styles.button} icon="autorenew" mode="contained" buttonColor='gray' onPress={handleOnClickRefreshQuotes}>
+        atualizar
+      </Button>
     </>
   )
 }
@@ -56,6 +64,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CC9F0',
   },
   container: {
+    marginTop: 10
+  },
+  button: {
     marginTop: 10
   }
 })
