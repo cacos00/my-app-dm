@@ -4,14 +4,16 @@ import React, { useState } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { Button, TextInput } from 'react-native-paper'
 import { TextInputMask } from 'react-native-masked-text'
+import { decodeCoin } from '@/constants/Coin'
 
 export default function HomeScreen() {
+  console.log(1)
   const [listPicker] = useState([
     { label: 'USD', value: 'USD' },
     { label: 'BRL', value: 'BRL' },
     { label: 'EUR', value: 'EUR' },
   ])
-  const [coinInput, setCoinInput] = useState<string>('USD')
+  const [coinInput, setCoinInput] = useState<string>('BRL')
   const [coinOutput, setCoinOutput] = useState<string>('USD')
   const [inputValue, setInputValue] = useState<string>('')
   const [outputValue, setOutputValue] = useState<string>('')
@@ -21,7 +23,7 @@ export default function HomeScreen() {
 
   async function handleOnClickConversion(): Promise<void> {
     if (coinInput === coinOutput) {
-      throw new Error("selecione moedas diferentes")
+      console.log('selecione moedas diferentes para prosseguir')
     } else {
       const data = await fetch(`https://economia.awesomeapi.com.br/json/last/${coinInput}-${coinOutput}`)
 
@@ -29,15 +31,12 @@ export default function HomeScreen() {
 
       const coin = `${coinInput}${coinOutput}`
 
-      console.log(inputValue)
+      const cleanedInputValue = inputValue.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(/,/g, '.')
 
-      const cleanedInputValue = inputValue.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(/,/g, '.');
-      const number: number = Number(cleanedInputValue)
+      const value: number = Number(cleanedInputValue) * response[coin].bid
+      const outputValue = String(value.toFixed(2))
 
-      const valor: number = number * response[coin].bid
-      const valor1 = String(valor.toFixed(2))
-      const valor2 = String(valor1)
-      setOutputValue(valor2)
+      setOutputValue(outputValue)
     }
   }
 
@@ -51,7 +50,7 @@ export default function HomeScreen() {
               precision: 2,
               separator: ',',
               delimiter: '.',
-              unit: '$ ',
+              unit: decodeCoin(coinInput),
               suffixUnit: ''
             }}
             style={styles.input}
@@ -88,7 +87,7 @@ export default function HomeScreen() {
               precision: 2,
               separator: ',',
               delimiter: '.',
-              unit: '$ ',
+              unit: decodeCoin(coinOutput),
               suffixUnit: ''
             }}
             style={styles.input}
