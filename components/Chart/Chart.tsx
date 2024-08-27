@@ -3,13 +3,12 @@ import { LineChart } from 'react-native-chart-kit'
 import { Dimensions, View } from 'react-native'
 
 interface MyChartProps {
-  categories: string[];
-  series: number[];
+  categories: string[]
+  series: number[]
 }
 
-const MyChart = (props: MyChartProps) => {
-  console.log('cheguei amendo')
-  const screenWidth = Dimensions.get("window").width;
+function Chart(props: MyChartProps) {
+  const screenWidth = Dimensions.get("window").width * 0.85
 
   return (
     <View>
@@ -22,8 +21,8 @@ const MyChart = (props: MyChartProps) => {
             },
           ],
         }}
-        width={screenWidth} // Largura do gráfico
-        height={220} // Altura do gráfico
+        width={screenWidth}
+        height={220}
         chartConfig={{
           backgroundColor: '#e26a00',
           backgroundGradientFrom: '#fb8c00',
@@ -47,7 +46,9 @@ const MyChart = (props: MyChartProps) => {
         }}
       />
     </View>
-  );
+  )
 }
 
-export default MyChart
+export {
+  Chart
+} 

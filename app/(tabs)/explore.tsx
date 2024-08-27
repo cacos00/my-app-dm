@@ -1,14 +1,19 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Appbar, Button } from 'react-native-paper'
+import { Appbar, Button, Modal, Portal, Provider as PaperProvider } from 'react-native-paper'
 import { ListQuotes } from '@/components/ListCotes/ListQuotes'
 import { CoinType } from '@/components/ListCotes/ListCotes'
-import MyChart from '@/components/ChartCoin/ChartCoin'
+import { Chart } from '@/components/Chart/Chart'
 
 export default function TabTwoScreen() {
   const [quotes, setQuotes] = useState<CoinType[]>([])
   const [categories, setCategories] = useState<string[]>([])
   const [series, setSeries] = useState<any[]>([])
+
+  const [visible, setVisible] = React.useState(false)
+
+  const showModal = () => setVisible(true)
+  const hideModal = () => setVisible(false)
 
   useEffect(() => {
     createdComponent()
@@ -24,8 +29,7 @@ export default function TabTwoScreen() {
     if (response) {
       const arrayOfObjects: CoinType[] = Object.values(response)
       setQuotes(arrayOfObjects)
-    }
-    else {
+    } else {
       throw new Error('problemas')
     }
   }
@@ -35,6 +39,7 @@ export default function TabTwoScreen() {
   }
 
   async function handleOnClickOpenModalChart(coin: any) {
+    showModal()
     const data = await fetch(`https://economia.awesomeapi.com.br/json/daily/${coin}-BRL/15`)
     const response = await data.json()
 
@@ -44,8 +49,8 @@ export default function TabTwoScreen() {
     for (let index = 0; index < response.length; index++) {
       const element = response[index]
 
-      categories.push(element.timestamp)
-      series.push(element.bid)
+      categories.push(new Date(element.timestamp * 1000).toLocaleDateString())
+      series.push(parseFloat(element.bid))
     }
 
     setCategories(categories)
@@ -53,7 +58,7 @@ export default function TabTwoScreen() {
   }
 
   return (
-    <>
+    <PaperProvider>
       <View>
         <Appbar.Header style={styles.background}>
           <Appbar.Content title="Cotações" />
@@ -62,27 +67,29 @@ export default function TabTwoScreen() {
       <View style={styles.container}>
         <ListQuotes
           quotes={quotes}
-          callback={handleOnClickOpenModalChart} />
+          callback={handleOnClickOpenModalChart}
+        />
       </View>
       <Button style={styles.button} icon="autorenew" mode="contained" buttonColor='gray' onPress={handleOnClickRefreshQuotes}>
-        atualizar
+        Atualizar
       </Button>
-      <MyChart categories={categories} series={series} />
-    </>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalContainer}>
+          <View style={styles.chartWrapper}>
+            {series.length > 0 && categories.length > 0 ? (
+              <Chart categories={categories} series={series} />
+            ) : (
+              <Text>Carregando gráfico...</Text>
+            )}
+            <Button onPress={hideModal}>Fechar</Button>
+          </View>
+        </Modal>
+      </Portal>
+    </PaperProvider>
   )
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
   background: {
     backgroundColor: '#4CC9F0',
   },
@@ -91,9 +98,21 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10
-  }
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
+    maxWidth: '95%',
+    alignSelf: 'center'
+  },
+  chartWrapper: {
+    width: '100%',
+    alignItems: 'center',
+  },
 })
 
 export {
   TabTwoScreen
-}
+} 
