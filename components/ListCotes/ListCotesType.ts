@@ -1,6 +1,7 @@
 type CoinType = {
+    name: string
     code: string
-    codei: string
+    codein: string
     high: string
     low: string
     varBid: string

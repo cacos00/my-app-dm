@@ -24,9 +24,9 @@ function Chart(props: MyChartProps) {
         width={screenWidth}
         height={220}
         chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
+          backgroundColor: '#6a0dad', 
+          backgroundGradientFrom: '#8a2be2', 
+          backgroundGradientTo: '#9b30ff', 
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -36,7 +36,7 @@ function Chart(props: MyChartProps) {
           propsForDots: {
             r: "6",
             strokeWidth: "2",
-            stroke: "#ffa726",
+            stroke:  "#9b30ff",
           },
         }}
         bezier

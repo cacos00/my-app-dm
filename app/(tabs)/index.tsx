@@ -7,11 +7,14 @@ import { TextInputMask } from 'react-native-masked-text'
 import { decodeCoin } from '@/constants/Coin'
 
 export default function HomeScreen() {
-  console.log(1)
   const [listPicker] = useState([
     { label: 'USD', value: 'USD' },
     { label: 'BRL', value: 'BRL' },
     { label: 'EUR', value: 'EUR' },
+    { label: 'CAD', value: 'CAD' },
+    { label: 'ARS', value: 'ARS' },
+    { label: 'GBP', value: 'GBP' },
+    { label: 'ETH', value: 'ETH' },
   ])
   const [coinInput, setCoinInput] = useState<string>('BRL')
   const [coinOutput, setCoinOutput] = useState<string>('USD')

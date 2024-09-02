@@ -1,8 +1,8 @@
-import { StyleSheet, View, Text, Dimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Appbar, Button, Modal, Portal, Provider as PaperProvider } from 'react-native-paper'
+import { Appbar, Button, Modal, Text, Portal, Provider as PaperProvider } from 'react-native-paper'
 import { ListQuotes } from '@/components/ListCotes/ListQuotes'
-import { CoinType } from '@/components/ListCotes/ListCotes'
+import { CoinType } from '@/components/ListCotes/ListCotesType'
 import { Chart } from '@/components/Chart/Chart'
 
 export default function TabTwoScreen() {
@@ -24,7 +24,7 @@ export default function TabTwoScreen() {
   }
 
   async function fetchQuotes() {
-    const data = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL')
+    const data = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL,CAD-BRL,ARS-BRL,GBP-BRL,ETH-BRL')
     const response = await data.json()
     if (response) {
       const arrayOfObjects: CoinType[] = Object.values(response)
@@ -75,6 +75,7 @@ export default function TabTwoScreen() {
       </Button>
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalContainer}>
+        <Text variant="headlineLarge">Últimos 15 Dias</Text>
           <View style={styles.chartWrapper}>
             {series.length > 0 && categories.length > 0 ? (
               <Chart categories={categories} series={series} />
