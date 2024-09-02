@@ -134,17 +134,17 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center', // Centraliza verticalmente
+    justifyContent: 'center', 
     width: '100%',
     paddingHorizontal: 15,
-    flex: 1, // O container ocupa todo o espaço disponível
+    flex: 1, 
   },
   rowFullWidth: {
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20, // Espaçamento entre os elementos
+    marginBottom: 20, 
   },
   input: {
     flex: 0.7,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   buttonConver: {
     width: '60%',
     alignSelf: 'center',
-    marginVertical: 20, // Espaçamento vertical para o botão
+    marginVertical: 20, 
   },
   containerFlexButton: {
     flexDirection: 'row',

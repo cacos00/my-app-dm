@@ -1,5 +1,4 @@
 function decodeCoin(coin: string) {
-    console.log('coin: ', coin)
     if (coin === 'USD') {
         return '$ '
     } else if (coin === 'BRL') {
